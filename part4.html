@@ -13,6 +13,7 @@
 <body onload="generateFaces()">
 	<h1>Matching Game</h1>
 	<p>Click on the extra smiling face on the left.</p>
+	<p id="levels"></p>
 
 	<div id="leftSide"></div>
 
@@ -22,9 +23,11 @@
 		<script type="text/javascript">
 		var numberOfFaces=5;
 		var theLeftSide=document.getElementById("leftSide");
-		
+		var passed=1;
+
 		function generateFaces(){
 			var count=numberOfFaces;
+			
 			while(count>0){
 				var img=document.createElement("img");
 				img.src="smile.png";
@@ -37,6 +40,8 @@
 				count-=1;
 			}
 
+			var lev=document.getElementById("levels");
+			lev.innerHTML="Now you are in "+passed+" levels";
 			var theRightSide = document.getElementById("rightSide");
 			leftSideImages=theLeftSide.cloneNode(true);
 			leftSideImages.removeChild(leftSideImages.lastChild);
@@ -53,13 +58,15 @@
 				while(theRightSide.firstChild)
 					theRightSide.removeChild(theRightSide.firstChild);
 				numberOfFaces+=5;
+				passed+=1;
 				generateFaces();
 				
 			};
 
 			
 			theBody.onclick=function gameOver(){
-				alert("Game Over!");
+				passed-=1;
+				alert("Game Over! \nYou have passed "+passed+" levels!");
 				theBody.onclick=null;
 				theLeftSide.lastChild.onclick=null;
 			};
